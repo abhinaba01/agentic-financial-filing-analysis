@@ -383,13 +383,15 @@ in the diagram. `affa.agent.routing` asserts `t > f` **at import**.
 pytest
 ```
 
-194 tests, under 20 seconds, no network and no GPU. Coverage follows the spec's list:
+232 tests, under 2 minutes, no network and no GPU. Coverage follows the spec's list:
 financial-notation cleaning, unit/scale conversion, negative-number parsing,
 chunker termination, threshold reachability, delta-returning graph nodes, schema
 validation, and the API contract with models mocked.
 
-Every bug found during development has a named regression test. Four of them
-came from this build:
+Every bug found during development has a named regression test. Eight of them
+came from this build — the last four surfaced only when a real training run
+was attempted on real hardware (Windows locally, then a T4 in Colab), not under
+pytest:
 
 | Bug | Test |
 |---|---|
@@ -397,6 +399,10 @@ came from this build:
 | Percent-convention inference ran over YoY values the pipeline had already computed in points, turning a true −0.96% into −96% | `test_yoy_is_computed_in_points_and_not_reinterpreted` |
 | `(see Note 3) 1,234` parsed the footnote marker as a parenthesised negative, yielding −3 | `test_footnote_marker_is_not_read_as_the_figure` |
 | `4,812.6 / 962.5 × 100 = 500.01` let an unconstrained ratio "ground" a fabricated claim | `test_contradiction_is_distinguished_from_absence` |
+| All four training scripts died at import when run as `python training/train_x.py` — only pytest's injected `pythonpath` made them work | `test_script_imports_when_run_directly` |
+| On Windows, `pyarrow` (pulled in by `datasets`) loading before `torch` broke `torch`'s DLL init (`c10.dll`) — reproduced running the XBRL tagger script for real | `test_common_imports_torch_before_anything_else_can` |
+| A missing `accelerate` surfaced as a `transformers` internals traceback four frames deep instead of a one-line fix | `test_require_accelerate_message_is_actionable_when_missing` |
+| The GPU-check cell called `.total_mem`, which does not exist on `torch`'s device-properties object (the real name is `.total_memory`) — CPU-only CI cannot execute this cell, so it only failed on an actual T4 in Colab | `test_gpu_check_cell_uses_the_real_torch_attribute` |
 
 ---
 

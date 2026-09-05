@@ -61,7 +61,7 @@ and fails loudly rather than letting you find out later.
 pytest
 ```
 
-Expect 194 passing in under 20 seconds. No network, no GPU, no model downloads —
+Expect 232 passing in under 2 minutes - the training-entrypoint subprocess checks add real time. No network, no GPU, no model downloads —
 if a run tries to reach the network, something regressed.
 
 ```bash
@@ -292,6 +292,20 @@ the checkpoint was written. Restore the original settings, or start fresh in a
 new checkpoint directory.
 
 **`RuntimeError: datasets 4.x is installed`** — see the pin note in §1.
+
+**`OSError: [WinError 1114] A dynamic link library (DLL) initialization routine
+failed ... c10.dll`** (Windows only) — `pyarrow`, pulled in transitively by
+`datasets`, bundles its own copies of the MSVC runtime DLLs. If those load into
+the process before torch's, torch's `c10.dll` fails to initialize. Every
+training script now imports `torch` first (via `training/common.py`) specifically
+to avoid this, so a fresh `git pull` should fix it. If you still hit it in your
+own code, import `torch` before `datasets` or `transformers`.
+
+**`ImportError: Using the Trainer with PyTorch requires accelerate>=1.1.0`** —
+`pip install "accelerate>=1.1.0"`, or reinstall the full extra:
+`pip install -e ".[train]"`. Easy to hit if you installed dependencies
+piecemeal (e.g. after fixing a `datasets` version conflict) rather than via the
+`train` extra, which pins a compatible version.
 
 **"falling back to HashingEmbedder"** — `sentence-transformers` is not installed
 or the model could not be downloaded. Install `.[ingest]`. The stub is lexical,

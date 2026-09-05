@@ -94,6 +94,11 @@ jobs:
           print("assessment:", report.recommendation.assessment.value)
           PY
 
+      # This step, and tests/test_notebooks.py, catch drift and syntax errors -
+      # never a cell that is only wrong on real GPU hardware. `.total_mem`
+      # (the real attribute is `.total_memory`) shipped once and only failed
+      # inside an actual T4 Colab session; see KNOWN_BAD_SNIPPETS in that file
+      # for the standing defense against that specific class of bug recurring.
       - name: Check the notebooks are in sync with their generator
         run: |
           python scripts/make_notebooks.py
