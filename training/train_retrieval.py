@@ -35,11 +35,18 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+# Both the repo root and src/ must be importable: `training.common` lives at the
+# root, `affa` lives under src/. Running this file directly puts only
+# training/ on sys.path, so neither resolves without this.
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+for _path in (str(_REPO_ROOT), str(_REPO_ROOT / "src")):
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
 
 from training.common import (  # noqa: E402
     RunConfig,
     assert_checkpoint_selection_is_valid,
+    require_accelerate,
     resolve_checkpoint_dir,
     resume_checkpoint,
     set_global_seed,
@@ -143,6 +150,7 @@ def drop_financebench_overlap(dataset, *, skip: bool = False):
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    require_accelerate()
     set_global_seed(args.seed)
 
     from datasets import load_dataset

@@ -37,6 +37,21 @@ from typing import Any
 
 log = logging.getLogger(__name__)
 
+# Windows DLL-loading defense. `pyarrow`, pulled in transitively by `datasets`,
+# bundles its own copies of the MSVC runtime DLLs. If pyarrow's copies load
+# into the process before torch's, torch's `c10.dll` can fail to initialize
+# with `OSError: [WinError 1114] A dynamic link library (DLL) initialization
+# routine failed` - a real failure mode on Windows CPU installs, reproduced
+# during this project's own training runs. Every script here calls
+# `require_datasets_below_4()`, which imports `datasets`, before anything else
+# imports `torch` - so importing torch here, at module load, first, is what
+# avoids the collision. A no-op (and silently skipped) wherever torch is not
+# installed, such as evaluation-only environments.
+try:
+    import torch  # noqa: F401
+except ImportError:
+    pass
+
 RUN_CONFIG_FILENAME = "affa_run_config.json"
 
 # Paths that do not survive a Colab runtime restart.
@@ -312,6 +327,42 @@ def require_datasets_below_4() -> None:
             '    pip install "datasets>=2.19,<4.0"\n\n'
             "Do not substitute a parquet mirror: at least one is deduplicated, which "
             "changes the splits and makes the numbers incomparable to the paper."
+        )
+
+
+def require_accelerate(min_version: str = "1.1.0") -> None:
+    """Fail loudly, with a fix, when HF ``Trainer`` cannot find a usable ``accelerate``.
+
+    Without this, a missing or too-old ``accelerate`` surfaces as a
+    ``transformers`` internals traceback four frames deep inside
+    ``TrainingArguments.__post_init__`` - correct, but it reads like a bug in
+    this project rather than a one-line pip install. Reproduced running this
+    project's own training scripts: `pip install -e ".[train]"` pulls in a
+    compatible version, but ``accelerate`` is easy to end up without when
+    installing dependencies piecemeal (e.g. after fixing an unrelated
+    ``datasets`` version conflict).
+    """
+    try:
+        import accelerate
+    except ImportError as exc:
+        raise RuntimeError(
+            "HF `Trainer` needs `accelerate` and it is not installed.\n\n"
+            '    pip install "accelerate>=1.1.0"\n\n'
+            'Or reinstall the full extra: pip install -e ".[train]"'
+        ) from exc
+
+    def _version_tuple(v: str) -> tuple[int, ...]:
+        parts = []
+        for p in v.split(".")[:3]:
+            digits = "".join(ch for ch in p if ch.isdigit())
+            parts.append(int(digits) if digits else 0)
+        return tuple(parts)
+
+    if _version_tuple(accelerate.__version__) < _version_tuple(min_version):
+        raise RuntimeError(
+            f"accelerate {accelerate.__version__} is installed, but HF `Trainer` "
+            f"needs >={min_version}.\n\n"
+            f'    pip install "accelerate>={min_version}"'
         )
 
 

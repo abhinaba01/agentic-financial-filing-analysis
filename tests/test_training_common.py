@@ -16,6 +16,7 @@ from training.common import (
     ResumeMismatchError,
     RunConfig,
     assert_checkpoint_selection_is_valid,
+    require_accelerate,
     resolve_checkpoint_dir,
     resume_checkpoint,
 )
@@ -132,3 +133,34 @@ def test_reporting_split_cannot_be_the_selection_split() -> None:
     with pytest.raises(ValueError, match="Select on validation"):
         assert_checkpoint_selection_is_valid(selection_split="test", reporting_split="test")
     assert_checkpoint_selection_is_valid(selection_split="validation", reporting_split="test")
+
+
+def test_require_accelerate_passes_when_new_enough() -> None:
+    """Regression: a missing accelerate surfaced as a transformers internals
+    traceback four frames deep, which reads like a bug in this project rather
+    than a one-line pip install. Reproduced running the training scripts on a
+    real machine after fixing an unrelated `datasets` conflict left
+    `accelerate` never installed.
+    """
+    require_accelerate()  # the test environment has a current accelerate
+
+
+def test_require_accelerate_rejects_too_old_a_version() -> None:
+    with pytest.raises(RuntimeError, match=r"needs >=999\.0\.0"):
+        require_accelerate(min_version="999.0.0")
+
+
+def test_require_accelerate_message_is_actionable_when_missing(monkeypatch) -> None:
+    """Simulates accelerate genuinely not being importable."""
+    import builtins
+
+    real_import = builtins.__import__
+
+    def blocked_import(name, *args, **kwargs):
+        if name == "accelerate":
+            raise ImportError("No module named 'accelerate'")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", blocked_import)
+    with pytest.raises(RuntimeError, match="pip install"):
+        require_accelerate()

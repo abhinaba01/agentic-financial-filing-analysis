@@ -56,7 +56,7 @@ GPU_CHECK = code(
 import torch
 assert torch.cuda.is_available(), "No GPU. Runtime > Change runtime type > T4 GPU."
 print(f"torch {torch.__version__} | {torch.cuda.get_device_name(0)} | "
-      f"{torch.cuda.get_device_properties(0).total_mem / 1e9:.1f} GB")
+      f"{torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
 """
 )
 
@@ -184,7 +184,7 @@ notebook_login()
 
 HUB_ID = 'YOUR_USERNAME/affa-{task}'
 
-card = f\"\"\"---
+card = \"\"\"---
 license: apache-2.0
 tags: [finance, sec-filings, affa]
 ---
