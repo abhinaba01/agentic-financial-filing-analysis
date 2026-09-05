@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      # Cache the HF model directory, keyed on the modules that hold model
+      # names. When a model name changes, the key changes and the cache is
+      # rebuilt - a cache keyed on the lockfile alone would keep serving
+      # weights for a model the code no longer uses.
+      - name: Cache HuggingFace models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: >-
+            hf-${{ runner.os }}-py${{ matrix.python-version }}-${{
+            hashFiles('configs/default.yaml',
+                      'src/affa/config.py',
+                      'src/affa/kpi/catalog.py',
+                      'training/train_xbrl_tagger.py',
+                      'training/train_retrieval.py',
+                      'training/train_sentiment.py',
+                      'training/train_finqa_qlora.py') }}
+          restore-keys: |
+            hf-${{ runner.os }}-py${{ matrix.python-version }}-
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          # The API is part of the tested contract, so fastapi/httpx are installed.
+          # torch and the training stack are NOT: the suite must run without them,
+          # and requiring them here would hide an accidental hard dependency.
+          pip install -e ".[dev]" fastapi httpx python-multipart
+
+      - name: Verify the core imports without heavy dependencies
+        run: |
+          python - <<'PY'
+          import importlib.util
+          for name in ("torch", "transformers", "langgraph", "chromadb"):
+              assert importlib.util.find_spec(name) is None, (
+                  f"{name} is installed in the light job; the no-heavy-deps "
+                  "guarantee is no longer being tested"
+              )
+          # These must import with core deps only.
+          import affa.config, affa.schema, affa.recommend.rubric
+          import affa.ingestion.clean, affa.ingestion.chunk, affa.kpi.units
+          print("core imports clean")
+          PY
+
+      - name: Run tests
+        env:
+          # No network in CI: the deterministic stub stands in for the embedder.
+          AFFA_FORCE_STUB_EMBEDDER: "1"
+        run: pytest -q --cov=affa --cov-report=term-missing
+
+      - name: Analyze the bundled sample end to end
+        env:
+          AFFA_FORCE_STUB_EMBEDDER: "1"
+        run: |
+          python -m affa.cli data/samples/demo_10k.json \
+            --format json --in-memory --output /tmp/report.json
+          python - <<'PY'
+          import json
+          from affa.schema import AnalysisReport
+          report = AnalysisReport.model_validate_json(
+              open("/tmp/report.json", encoding="utf-8").read()
+          )
+          assert report.recommendation.disclaimer, "report is missing its disclaimer"
+          assert report.financial_metrics.extracted, "no metrics extracted"
+          print("assessment:", report.recommendation.assessment.value)
+          PY
+
+      - name: Check the notebooks are in sync with their generator
+        run: |
+          python scripts/make_notebooks.py
+          git diff --exit-code notebooks/ \
+            || (echo "notebooks/ is stale - re-run scripts/make_notebooks.py and commit" && exit 1)
+
+  lint:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install ruff
+      # This job was added only after `ruff check .` passed cleanly on the whole
+      # tree. A lint job that has never been made to pass is worse than none.
+      - run: ruff check .
+      - run: ruff format --check .

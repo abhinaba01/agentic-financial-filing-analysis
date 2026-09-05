@@ -1,0 +1,42 @@
+{
+  "component": "kpi",
+  "dataset": "data\\kpi_gold",
+  "split": "hand-labelled",
+  "n_examples": 19,
+  "metrics": {
+    "value_accuracy": 1.0,
+    "precision_when_found": 1.0,
+    "extraction_recall": 1.0,
+    "unit_error_rate": 0.0,
+    "mismatch_rate": 0.0
+  },
+  "baseline_name": "rule_based",
+  "baseline_metrics": {
+    "value_accuracy": 1.0,
+    "precision_when_found": 1.0,
+    "extraction_recall": 1.0,
+    "unit_error_rate": 0.0,
+    "mismatch_rate": 0.0
+  },
+  "model_name": "rule_based_only",
+  "notes": [
+    "XBRL tagger not loaded, so the evaluated system IS the rule-based baseline. The two columns below are identical by construction and this run does not measure the tagger. Enable models.xbrl_tagger in the config and point it at a fine-tuned checkpoint.",
+    "documents: 1, gold metric instances: 19",
+    "tolerance: 1.0% relative"
+  ],
+  "literature": [],
+  "subset_of": null,
+  "seed": 42,
+  "generated_at": "2026-09-05T17:21:51.333232+00:00",
+  "affa_version": "0.1.0",
+  "python_version": "3.10.10",
+  "baseline_absent_reason": null,
+  "deltas": {
+    "value_accuracy": 0.0,
+    "precision_when_found": 0.0,
+    "extraction_recall": 0.0,
+    "unit_error_rate": 0.0,
+    "mismatch_rate": 0.0
+  },
+  "is_sampled": false
+}

@@ -1,0 +1,144 @@
+# Recommendation rubric, version 1.0 (§7).
+#
+# The verdict is a DETERMINISTIC aggregation over verified, cited signals.
+# The LLM writes the narrative around this output; it does not choose the verdict.
+# Weights and thresholds are visible and adjustable here, on purpose.
+#
+# There is no ground-truth dataset for "should I invest". This rubric is an
+# explicit, auditable opinion - not a return predictor. See §7 of the build spec.
+version: "1.0"
+
+# Each factor maps extracted metrics onto a score in [-1, 1].
+# `bands` are read as: the first band whose `max` the value is <= wins;
+# a band with `max: null` is the open-ended top band.
+factors:
+  profitability:
+    weight: 0.22
+    required_metrics: ["net_margin_pct"]
+    optional_metrics: ["gross_margin_pct", "operating_margin_pct"]
+    scoring:
+      net_margin_pct:
+        bands:
+          - { max: 0.0,   score: -1.0, label: "loss-making" }
+          - { max: 5.0,   score: -0.3, label: "thin" }
+          - { max: 12.0,  score: 0.3,  label: "moderate" }
+          - { max: 25.0,  score: 0.8,  label: "strong" }
+          - { max: null,  score: 1.0,  label: "exceptional" }
+      operating_margin_pct:
+        bands:
+          - { max: 0.0,   score: -1.0, label: "operating loss" }
+          - { max: 8.0,   score: -0.2, label: "thin" }
+          - { max: 20.0,  score: 0.5,  label: "healthy" }
+          - { max: null,  score: 1.0,  label: "very strong" }
+      gross_margin_pct:
+        bands:
+          - { max: 15.0,  score: -0.5, label: "commodity-like" }
+          - { max: 35.0,  score: 0.1,  label: "moderate" }
+          - { max: 60.0,  score: 0.6,  label: "strong" }
+          - { max: null,  score: 1.0,  label: "software-like" }
+
+  growth:
+    weight: 0.20
+    required_metrics: ["revenue_yoy_pct"]
+    optional_metrics: ["net_income_yoy_pct"]
+    scoring:
+      revenue_yoy_pct:
+        bands:
+          - { max: -10.0, score: -1.0, label: "sharp contraction" }
+          - { max: 0.0,   score: -0.5, label: "declining" }
+          - { max: 5.0,   score: 0.1,  label: "flat" }
+          - { max: 15.0,  score: 0.6,  label: "growing" }
+          - { max: null,  score: 1.0,  label: "high growth" }
+      net_income_yoy_pct:
+        bands:
+          - { max: -20.0, score: -1.0, label: "earnings collapse" }
+          - { max: 0.0,   score: -0.4, label: "earnings decline" }
+          - { max: 10.0,  score: 0.3,  label: "modest growth" }
+          - { max: null,  score: 0.9,  label: "strong growth" }
+
+  leverage:
+    weight: 0.18
+    required_metrics: ["debt_to_equity"]
+    optional_metrics: ["current_ratio"]
+    scoring:
+      # Lower is better here, so the bands run the other way.
+      debt_to_equity:
+        bands:
+          - { max: 0.5,   score: 1.0,  label: "conservative" }
+          - { max: 1.5,   score: 0.5,  label: "moderate" }
+          - { max: 3.0,   score: -0.3, label: "elevated" }
+          - { max: null,  score: -1.0, label: "high leverage" }
+      current_ratio:
+        bands:
+          - { max: 1.0,   score: -0.8, label: "liquidity pressure" }
+          - { max: 1.5,   score: 0.2,  label: "adequate" }
+          - { max: 3.0,   score: 0.8,  label: "comfortable" }
+          - { max: null,  score: 0.4,  label: "possibly idle cash" }
+
+  cash_generation:
+    weight: 0.20
+    required_metrics: ["free_cash_flow"]
+    optional_metrics: ["ocf_to_net_income"]
+    scoring:
+      free_cash_flow:
+        # Sign-based: FCF magnitude is company-size dependent, so score the sign
+        # and scale it against revenue where available (fcf_margin_pct).
+        bands:
+          - { max: 0.0,   score: -0.9, label: "cash burning" }
+          - { max: null,  score: 0.7,  label: "cash generative" }
+      ocf_to_net_income:
+        # Operating cash flow well below net income is an earnings-quality flag.
+        bands:
+          - { max: 0.6,   score: -0.8, label: "earnings not cash-backed" }
+          - { max: 0.9,   score: -0.2, label: "partially cash-backed" }
+          - { max: null,  score: 0.7,  label: "cash-backed earnings" }
+
+  risk:
+    weight: 0.10
+    required_metrics: ["risk_severity_index"]
+    optional_metrics: []
+    scoring:
+      # risk_severity_index in [0,1], produced by the risk-factor branch.
+      risk_severity_index:
+        bands:
+          - { max: 0.25,  score: 0.5,  label: "routine risk disclosure" }
+          - { max: 0.5,   score: 0.0,  label: "notable risks" }
+          - { max: 0.75,  score: -0.6, label: "elevated risks" }
+          - { max: null,  score: -1.0, label: "severe risks disclosed" }
+
+  tone:
+    weight: 0.10
+    required_metrics: ["sentiment_score"]
+    optional_metrics: []
+    scoring:
+      # sentiment_score in [-1,1] from §5.3. Deliberately the lowest weight:
+      # management tone is the softest signal in the set.
+      sentiment_score:
+        bands:
+          - { max: -0.3,  score: -0.8, label: "negative tone" }
+          - { max: 0.1,   score: 0.0,  label: "neutral tone" }
+          - { max: null,  score: 0.6,  label: "positive tone" }
+
+# Verdict bands over the weighted aggregate in [-1, 1].
+assessment_bands:
+  - { max: -0.25, assessment: "unfavorable" }
+  - { max: 0.25,  assessment: "mixed" }
+  - { max: null,  assessment: "favorable" }
+
+sufficiency:
+  # `insufficient_evidence` must be a REACHABLE outcome (§7), not a dead branch.
+  # It fires when the evidence base is too thin for the aggregate to mean anything.
+  min_factors_scored: 4
+  min_weight_covered: 0.60
+  # A factor only counts as scored if ALL of its required_metrics are present,
+  # verified, and carry provenance.
+  require_verified_citations: true
+
+confidence:
+  # Confidence is about evidence coverage and agreement, never about how strong
+  # the verdict is. A confident "mixed" is a normal outcome.
+  base: 0.30
+  weight_coverage_bonus: 0.40      # x fraction of factor weight actually scored
+  citation_coverage_bonus: 0.20    # x fraction of factors with verified citations
+  disagreement_penalty: 0.15       # x fraction of metrics where extractors disagree
+  max: 0.95

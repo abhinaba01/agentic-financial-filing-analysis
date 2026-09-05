@@ -1,0 +1,29 @@
+{
+  "source_file": "data/samples/demo_10k.json",
+  "company": "Northwind Systems, Inc.",
+  "ticker": "NWSY",
+  "fiscal_period": "FY2024",
+  "synthetic": true,
+  "notes": "SYNTHETIC. Northwind Systems is fictional and this filing was written for this repository, so these labels test the harness rather than the product. Values are absolute units, converted by hand from the 'In millions' statements on pp. 31, 33 and 36.",
+  "metrics": {
+    "revenue": {"value": 4812600000, "unit": "USD", "page": 31},
+    "cost_of_revenue": {"value": 1645800000, "unit": "USD", "page": 31},
+    "gross_profit": {"value": 3166800000, "unit": "USD", "page": 31},
+    "operating_expenses": {"value": 2204300000, "unit": "USD", "page": 31},
+    "operating_income": {"value": 962500000, "unit": "USD", "page": 31},
+    "interest_expense": {"value": -48600000, "unit": "USD", "page": 31},
+    "income_tax_expense": {"value": 182500000, "unit": "USD", "page": 31},
+    "net_income": {"value": 731400000, "unit": "USD", "page": 31},
+    "eps_basic": {"value": 3.71, "unit": "USD/share", "page": 31},
+    "eps_diluted": {"value": 3.64, "unit": "USD/share", "page": 31},
+    "current_assets": {"value": 2914500000, "unit": "USD", "page": 33},
+    "total_assets": {"value": 5982300000, "unit": "USD", "page": 33},
+    "current_liabilities": {"value": 1806200000, "unit": "USD", "page": 33},
+    "total_liabilities": {"value": 3526600000, "unit": "USD", "page": 33},
+    "total_debt": {"value": 1180000000, "unit": "USD", "page": 33},
+    "shareholders_equity": {"value": 2455700000, "unit": "USD", "page": 33},
+    "depreciation_amortization": {"value": 214700000, "unit": "USD", "page": 36},
+    "operating_cash_flow": {"value": 1104200000, "unit": "USD", "page": 36},
+    "capital_expenditure": {"value": -268400000, "unit": "USD", "page": 36}
+  }
+}

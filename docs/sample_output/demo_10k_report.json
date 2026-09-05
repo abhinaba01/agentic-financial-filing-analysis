@@ -1,0 +1,1257 @@
+{
+  "metadata": {
+    "company": null,
+    "ticker": "NWSY",
+    "doc_type": "10-K",
+    "fiscal_period": "FY2024",
+    "source_file": "data/samples/demo_10k.json",
+    "generated_at": "2026-09-05T17:20:55.144786+00:00",
+    "pipeline_version": "0.1.0",
+    "models": {
+      "embedder": "BAAI/bge-base-en-v1.5",
+      "xbrl_tagger": "rule_based_only",
+      "sentiment": "lexicon_fallback",
+      "reasoner": "stub"
+    }
+  },
+  "financial_metrics": {
+    "extracted": [
+      {
+        "name": "capital_expenditure",
+        "value": -268.4,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+          "page": 36,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Purchases of property and equipment | (268.4) | (241.9)"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "cost_of_revenue",
+        "value": 1645.8,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Cost of sales | 1,645.8 | 1,532.4"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "current_assets",
+        "value": 2914.5,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "page": 33,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total current assets | 2,914.5 | 2,510.8"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "current_liabilities",
+        "value": 1806.2,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "page": 33,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total current liabilities | 1,806.2 | 1,702.9"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "depreciation_amortization",
+        "value": 214.7,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+          "page": 36,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Depreciation and amortization | 214.7 | 198.3"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "eps_basic",
+        "value": 3.71,
+        "unit": "USD/share",
+        "scale": "units",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Basic | 3.71 | 2.98"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "eps_diluted",
+        "value": 3.64,
+        "unit": "USD/share",
+        "scale": "units",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Diluted | 3.64 | 2.93"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "gross_profit",
+        "value": 3166.8,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Gross profit | 3,166.8 | 2,769.5"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "income_tax_expense",
+        "value": 182.5,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Provision for income taxes | 182.5 | 134.0"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "interest_expense",
+        "value": -48.6,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Interest expense | (48.6) | (52.1)"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "net_income",
+        "value": 731.4,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Net income | 731.4 | 588.2"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "operating_cash_flow",
+        "value": 1104.2,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+          "page": 36,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Net cash provided by operating activities | 1,104.2 | 918.6"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "operating_expenses",
+        "value": 2204.3,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total operating expenses | 2,204.3 | 1,995.2"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "operating_income",
+        "value": 962.5,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Operating income | 962.5 | 774.3"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "revenue",
+        "value": 4812.6,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "page": 31,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "shareholders_equity",
+        "value": 2455.7,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "page": 33,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total shareholders equity | 2,455.7 | 1,972.7"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "total_assets",
+        "value": 5982.3,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "page": 33,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total assets | 5,982.3 | 5,344.1"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "total_debt",
+        "value": 1180.0,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "page": 33,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total debt | 1,180.0 | 1,265.0"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      },
+      {
+        "name": "total_liabilities",
+        "value": 3526.6,
+        "unit": "USD",
+        "scale": "millions",
+        "period": null,
+        "source": {
+          "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "page": 33,
+          "char_start": null,
+          "char_end": null,
+          "raw_text": "Total liabilities | 3,526.6 | 3,371.4"
+        },
+        "method": "rule_based",
+        "confidence": 0.7
+      }
+    ],
+    "derived": [
+      {
+        "name": "gross_margin_pct",
+        "value": 65.802269,
+        "unit": "percent",
+        "formula": "gross_profit / revenue * 100",
+        "operands": {
+          "gross_profit": 3166800000.0,
+          "revenue": 4812600000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Gross profit | 3,166.8 | 2,769.5"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "operating_margin_pct",
+        "value": 19.999584,
+        "unit": "percent",
+        "formula": "operating_income / revenue * 100",
+        "operands": {
+          "operating_income": 962500000.0,
+          "revenue": 4812600000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Operating income | 962.5 | 774.3"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "net_margin_pct",
+        "value": 15.197606,
+        "unit": "percent",
+        "formula": "net_income / revenue * 100",
+        "operands": {
+          "net_income": 731400000.0,
+          "revenue": 4812600000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net income | 731.4 | 588.2"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "ebitda",
+        "value": 1177200000.0,
+        "unit": "USD",
+        "formula": "operating_income + depreciation_amortization",
+        "operands": {
+          "operating_income": 962500000.0,
+          "depreciation_amortization": 214700000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Operating income | 962.5 | 774.3"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+            "page": 36,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Depreciation and amortization | 214.7 | 198.3"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "free_cash_flow",
+        "value": 835800000.0,
+        "unit": "USD",
+        "formula": "operating_cash_flow - abs(capital_expenditure)",
+        "operands": {
+          "operating_cash_flow": 1104200000.0,
+          "capital_expenditure": -268399999.99999997
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+            "page": 36,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net cash provided by operating activities | 1,104.2 | 918.6"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+            "page": 36,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Purchases of property and equipment | (268.4) | (241.9)"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "debt_to_equity",
+        "value": 0.480515,
+        "unit": "ratio",
+        "formula": "total_debt / shareholders_equity",
+        "operands": {
+          "total_debt": 1180000000.0,
+          "shareholders_equity": 2455700000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total debt | 1,180.0 | 1,265.0"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total shareholders equity | 2,455.7 | 1,972.7"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "current_ratio",
+        "value": 1.613609,
+        "unit": "ratio",
+        "formula": "current_assets / current_liabilities",
+        "operands": {
+          "current_assets": 2914500000.0,
+          "current_liabilities": 1806200000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total current assets | 2,914.5 | 2,510.8"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total current liabilities | 1,806.2 | 1,702.9"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "roe_pct",
+        "value": 29.783768,
+        "unit": "percent",
+        "formula": "net_income / shareholders_equity * 100",
+        "operands": {
+          "net_income": 731400000.0,
+          "shareholders_equity": 2455700000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net income | 731.4 | 588.2"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total shareholders equity | 2,455.7 | 1,972.7"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "roa_pct",
+        "value": 12.226067,
+        "unit": "percent",
+        "formula": "net_income / total_assets * 100",
+        "operands": {
+          "net_income": 731400000.0,
+          "total_assets": 5982300000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net income | 731.4 | 588.2"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total assets | 5,982.3 | 5,344.1"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "ocf_to_net_income",
+        "value": 1.509707,
+        "unit": "ratio",
+        "formula": "operating_cash_flow / net_income",
+        "operands": {
+          "operating_cash_flow": 1104200000.0,
+          "net_income": 731400000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+            "page": 36,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net cash provided by operating activities | 1,104.2 | 918.6"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net income | 731.4 | 588.2"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "interest_coverage",
+        "value": 19.804527,
+        "unit": "ratio",
+        "formula": "operating_income / abs(interest_expense)",
+        "operands": {
+          "operating_income": 962500000.0,
+          "interest_expense": -48600000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Operating income | 962.5 | 774.3"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Interest expense | (48.6) | (52.1)"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "ebitda_margin_pct",
+        "value": 24.46079,
+        "unit": "percent",
+        "formula": "ebitda / revenue * 100",
+        "operands": {
+          "ebitda": 1177200000.0,
+          "revenue": 4812600000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "fcf_margin_pct",
+        "value": 17.366912,
+        "unit": "percent",
+        "formula": "free_cash_flow / revenue * 100",
+        "operands": {
+          "free_cash_flow": 835800000.0,
+          "revenue": 4812600000.0
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+          }
+        ],
+        "method": "derived"
+      },
+      {
+        "name": "pe_ratio",
+        "value": 25.4121,
+        "unit": "ratio",
+        "formula": "market_price_per_share / eps_diluted",
+        "operands": {
+          "market_price_per_share": 92.5,
+          "eps_diluted": 3.64
+        },
+        "sources": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Diluted | 3.64 | 2.93"
+          }
+        ],
+        "method": "derived"
+      }
+    ],
+    "yoy_changes": {
+      "revenue_yoy_pct": 11.8715,
+      "net_income_yoy_pct": 24.3455,
+      "gross_profit_yoy_pct": 14.3455,
+      "operating_income_yoy_pct": 24.3058,
+      "operating_cash_flow_yoy_pct": 20.2047,
+      "total_assets_yoy_pct": 11.9421,
+      "eps_diluted_yoy_pct": 24.2321
+    },
+    "disagreements": []
+  },
+  "sentiment": {
+    "overall": "positive",
+    "score": 0.3333,
+    "by_section": {},
+    "model_name": "lexicon_fallback",
+    "available": false
+  },
+  "risk_factors": [
+    {
+      "risk": "Intense competition in the enterprise software market could adversely affect our pricing and our ability to retain customers.",
+      "severity": "medium",
+      "source": {
+        "chunk_id": "demo_10k-dc34ecbe2f:0006:787fd9e05e28",
+        "page": 14,
+        "char_start": null,
+        "char_end": null,
+        "raw_text": "Intense competition in the enterprise software market could adversely affect our pricing and our ability to retain customers."
+      },
+      "category": "risk_factors"
+    },
+    {
+      "risk": "We derive a significant portion of our revenue from a limited number of large customers, and the loss of one or more of them could materially reduce our net sales.",
+      "severity": "high",
+      "source": {
+        "chunk_id": "demo_10k-dc34ecbe2f:0007:1f91db523202",
+        "page": 15,
+        "char_start": null,
+        "char_end": null,
+        "raw_text": "We derive a significant portion of our revenue from a limited number of large customers, and the loss of one or more of them could materially reduce our net sales."
+      },
+      "category": "risk_factors"
+    },
+    {
+      "risk": "A material breach of our systems could result in loss of customer data, regulatory penalties and reputational harm, and could have a material adverse effect on our business, financial condition and results of operations.",
+      "severity": "high",
+      "source": {
+        "chunk_id": "demo_10k-dc34ecbe2f:0008:0133ad0bd84b",
+        "page": 16,
+        "char_start": null,
+        "char_end": null,
+        "raw_text": "A material breach of our systems could result in loss of customer data, regulatory penalties and reputational harm, and could have a material adverse effect on our business, financial condition and re"
+      },
+      "category": "risk_factors"
+    }
+  ],
+  "evidence": [
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0002:1965d02e3aa2",
+      "page": 23,
+      "text": "Net income for fiscal 2024 was $731.4 million, an increase from $588.2 million in fiscal 2023. Cash generated by operating activities was $1,104.2 million, and we invested $268.4 million in property and equipment during the year. We ended the year with total debt of $1,180.0 million against shareholders' equity of $2,455.7 million. Management believes the balance sheet remains well positioned to fund continued investment in research and development.",
+      "similarity": 0.6894,
+      "chunk_type": "narrative"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0001:94265d0aa0ad",
+      "page": 22,
+      "text": "Management's Discussion and Analysis of Financial Condition and Results of Operations. Total net sales increased to $4,812.6 million in fiscal 2024 from $4,301.9 million in fiscal 2023, an increase of 11.9%. The increase was driven by continued expansion of our subscription platform and record renewal rates across enterprise accounts. Gross profit improved to $3,166.8 million, reflecting a favorable shift in product mix toward higher-margin software offerings. Operating income was $962.5 million compared with $774.3 million in the prior year.",
+      "similarity": 0.6333,
+      "chunk_type": "narrative"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0006:787fd9e05e28",
+      "page": 14,
+      "text": "Item 1A. Risk Factors. Our business is subject to risks and uncertainties. Intense competition in the enterprise software market could adversely affect our pricing and our ability to retain customers. If we are unable to keep pace with rapid technological change, our results of operations could be materially and adversely affected.",
+      "similarity": 0.6167,
+      "chunk_type": "narrative"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0007:1f91db523202",
+      "page": 15,
+      "text": "We derive a significant portion of our revenue from a limited number of large customers, and the loss of one or more of them could materially reduce our net sales. Our international operations expose us to currency fluctuations that may adversely affect reported results. We may not be able to protect our intellectual property adequately, and litigation to defend it could be costly and time consuming.",
+      "similarity": 0.6002,
+      "chunk_type": "narrative"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+      "page": 31,
+      "text": "CONSOLIDATED STATEMENTS OF OPERATIONS (In millions, except per share data)\n | 2024 | 2023\nTotal net sales | 4,812.6 | 4,301.9\nCost of sales | 1,645.8 | 1,532.4\nGross profit | 3,166.8 | 2,769.5\nResearch and development | 1,284.2 | 1,142.6\nSelling, general and administrative | 920.1 | 852.6\nTotal operating expenses | 2,204.3 | 1,995.2\nOperating income | 962.5 | 774.3\nInterest expense | (48.6) | (52.1)\nProvision for income taxes | 182.5 | 134.0\nNet income | 731.4 | 588.2\nBasic | 3.71 | 2.98\nDiluted | 3.64 | 2.93",
+      "similarity": 0.5904,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+      "page": 36,
+      "text": "CONSOLIDATED STATEMENTS OF CASH FLOWS (In millions)\n | 2024 | 2023\nDepreciation and amortization | 214.7 | 198.3\nNet cash provided by operating activities | 1,104.2 | 918.6\nPurchases of property and equipment | (268.4) | (241.9)\nNet cash used in financing activities | (412.8) | (388.1)",
+      "similarity": 0.5828,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0008:0133ad0bd84b",
+      "page": 16,
+      "text": "Cybersecurity incidents present a significant risk to our operations. A material breach of our systems could result in loss of customer data, regulatory penalties and reputational harm, and could have a material adverse effect on our business, financial condition and results of operations.",
+      "similarity": 0.5703,
+      "chunk_type": "narrative"
+    },
+    {
+      "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+      "page": 33,
+      "text": "CONSOLIDATED BALANCE SHEETS (In millions)\n | 2024 | 2023\nTotal current assets | 2,914.5 | 2,510.8\nTotal assets | 5,982.3 | 5,344.1\nTotal current liabilities | 1,806.2 | 1,702.9\nTotal debt | 1,180.0 | 1,265.0\nTotal liabilities | 3,526.6 | 3,371.4\nTotal shareholders equity | 2,455.7 | 1,972.7",
+      "similarity": 0.5666,
+      "chunk_type": "table"
+    }
+  ],
+  "reasoning": {
+    "findings": [
+      {
+        "claim": "Capital expenditure is reported as -268,400,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Cost of revenue is reported as 1,645,800,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Total current assets is reported as 2,914,500,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Total current liabilities is reported as 1,806,200,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Depreciation and amortization is reported as 214,700,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "EPS (basic) is reported as 3.71 USD/share.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "EPS (diluted) is reported as 3.64 USD/share.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Gross profit is reported as 3,166,800,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Income tax expense is reported as 182,500,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Interest expense is reported as -48,600,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Net income is reported as 731,400,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Operating cash flow is reported as 1,104,200,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Operating expenses is reported as 2,204,300,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Operating income is reported as 962,500,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Revenue is reported as 4,812,600,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Shareholders' equity is reported as 2,455,700,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Total assets is reported as 5,982,300,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Total debt is reported as 1,180,000,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Total liabilities is reported as 3,526,600,000 USD.",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Gross margin % computes to 65.80 (gross_profit / revenue * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Operating margin % computes to 20.00 (operating_income / revenue * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Net margin % computes to 15.20 (net_income / revenue * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Ebitda computes to 1,177,200,000.00 (operating_income + depreciation_amortization).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Free cash flow computes to 835,800,000.00 (operating_cash_flow - abs(capital_expenditure)).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Debt to equity computes to 0.48 (total_debt / shareholders_equity).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Current ratio computes to 1.61 (current_assets / current_liabilities).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Roe % computes to 29.78 (net_income / shareholders_equity * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Roa % computes to 12.23 (net_income / total_assets * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0004:9acf1845ed59"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Ocf to net income computes to 1.51 (operating_cash_flow / net_income).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Interest coverage computes to 19.80 (operating_income / abs(interest_expense)).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Ebitda margin % computes to 24.46 (ebitda / revenue * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Fcf margin % computes to 17.37 (free_cash_flow / revenue * 100).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      },
+      {
+        "claim": "Pe ratio computes to 25.41 (market_price_per_share / eps_diluted).",
+        "supporting_chunks": [
+          "demo_10k-dc34ecbe2f:0003:72f8d542e593"
+        ],
+        "verification": "supported",
+        "verification_detail": "1/1 figures grounded, subject overlap 1.00",
+        "factor": null
+      }
+    ],
+    "chain_of_thought": "Retrieved 8 passages over 1 attempt(s); derived 33 candidate claims from extracted metrics."
+  },
+  "recommendation": {
+    "assessment": "favorable",
+    "confidence": 0.8333,
+    "rubric_version": "1.0",
+    "factor_scores": {
+      "profitability": 0.7667,
+      "growth": 0.75,
+      "leverage": 0.9,
+      "cash_generation": 0.7,
+      "risk": -0.6,
+      "tone": 0.6
+    },
+    "factors_scored": [
+      "profitability",
+      "growth",
+      "leverage",
+      "cash_generation",
+      "risk",
+      "tone"
+    ],
+    "factors_missing": [],
+    "weight_covered": 1.0,
+    "aggregate_score": 0.6207,
+    "rationale": [
+      {
+        "factor": "profitability",
+        "statement": "Profitability supports the assessment (Net margin %: strong, Gross margin %: software-like, Operating margin %: healthy).",
+        "score": 0.7667,
+        "citations": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net income | 731.4 | 588.2"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Gross profit | 3,166.8 | 2,769.5"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Operating income | 962.5 | 774.3"
+          }
+        ]
+      },
+      {
+        "factor": "growth",
+        "statement": "Growth supports the assessment (Revenue yoy %: growing, Net income yoy %: strong growth).",
+        "score": 0.75,
+        "citations": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total net sales | 4,812.6 | 4,301.9"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0003:72f8d542e593",
+            "page": 31,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net income | 731.4 | 588.2"
+          }
+        ]
+      },
+      {
+        "factor": "leverage",
+        "statement": "Leverage supports the assessment (Debt to equity: conservative, Current ratio: comfortable).",
+        "score": 0.9,
+        "citations": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total debt | 1,180.0 | 1,265.0"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0004:9acf1845ed59",
+            "page": 33,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Total current assets | 2,914.5 | 2,510.8"
+          }
+        ]
+      },
+      {
+        "factor": "cash_generation",
+        "statement": "Cash generation supports the assessment (Free cash flow: cash generative, Ocf to net income: cash-backed earnings).",
+        "score": 0.7,
+        "citations": [
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+            "page": 36,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net cash provided by operating activities | 1,104.2 | 918.6"
+          },
+          {
+            "chunk_id": "demo_10k-dc34ecbe2f:0005:12fb775ee68d",
+            "page": 36,
+            "char_start": null,
+            "char_end": null,
+            "raw_text": "Net cash provided by operating activities | 1,104.2 | 918.6"
+          }
+        ]
+      },
+      {
+        "factor": "risk",
+        "statement": "Risk weighs against the assessment (Risk severity index: elevated risks).",
+        "score": -0.6,
+        "citations": []
+      },
+      {
+        "factor": "tone",
+        "statement": "Tone supports the assessment (Sentiment score: positive tone).",
+        "score": 0.6,
+        "citations": []
+      }
+    ],
+    "narrative": null,
+    "disclaimer": "Research and educational use only. Not investment advice."
+  },
+  "retrieval_diagnostics": {
+    "chunks_retrieved": 8,
+    "chunks_discarded_below_floor": 0,
+    "mean_similarity": 0.6062,
+    "retries": 0,
+    "reformulations": [
+      "What were the company's revenue, profitability, cash generation, leverage and principal risks for the fiscal year, and how did they change?"
+    ],
+    "sufficient": true,
+    "stop_reason": "sufficient evidence"
+  },
+  "unsupported_claims_dropped": 0,
+  "warnings": [
+    "sentiment from a word lexicon, not the fine-tuned classifier; treat the tone factor as indicative only",
+    "XBRL tagger not loaded"
+  ]
+}

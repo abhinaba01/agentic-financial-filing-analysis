@@ -1,0 +1,104 @@
+# Live configuration. This file is loaded by affa.config.load_config() and drives
+# behaviour at runtime - it is not documentation. tests/test_config.py asserts that
+# every key here is consumed by code, so a stale key fails the suite.
+pipeline_version: "0.1.0"
+seed: 42
+
+models:
+  # Namespacing note (§4): vectors written by one embedder are meaningless when
+  # queried by another, and Chroma will answer confidently rather than error.
+  # The collection name is derived from embedder.name, so switching the embedder
+  # switches collections instead of corrupting one.
+  embedder:
+    name: "BAAI/bge-base-en-v1.5"
+    # BGE ships a query instruction prefix. §5.2: use it in BOTH training and
+    # inference, or in neither. We use it in neither, because the fine-tune in
+    # training/train_retrieval.py trains without it. Flipping this flag alone
+    # creates a train/inference mismatch - change both or nothing.
+    query_instruction: null
+    normalize_embeddings: true
+    batch_size: 16
+  xbrl_tagger:
+    name: "nlpaueb/sec-bert-base"
+    finetuned: null          # set to your Hub id after running notebooks/01
+    max_length: 256
+    enabled: false           # false -> rule-based extraction only, recorded as such
+  sentiment:
+    name: "nlpaueb/sec-bert-base"
+    finetuned: null          # set to your Hub id after running notebooks/03
+    max_length: 128
+    enabled: false
+  reasoner:
+    # One interface, two backends (§5.4). Selectable by config, not by rewrite.
+    backend: "stub"          # stub | local | hosted
+    local_name: "Qwen/Qwen2.5-3B-Instruct"
+    local_adapter: null      # QLoRA adapter dir/Hub id from notebooks/04
+    hosted_provider: "anthropic"
+    hosted_name: "claude-opus-5"
+    max_new_tokens: 768
+    temperature: 0.0
+
+ingestion:
+  chunk:
+    target_tokens: 512
+    overlap_tokens: 64
+    min_tokens: 32
+    # Tables are financial statements; splitting them destroys the row/column
+    # relationship the KPI extractor depends on.
+    keep_tables_whole: true
+    max_table_tokens: 1024
+    sentence_splitter: "auto"   # auto | spacy | regex
+  clean:
+    normalize_unicode: true
+    dehyphenate: true
+  parse:
+    extract_tables: true
+    max_pages: null
+
+vector_store:
+  provider: "chroma"
+  persist_dir: ".affa/chroma"
+  collection_prefix: "affa"
+  distance: "cosine"
+
+retrieval:
+  top_k: 8
+  # f - the similarity floor. Chunks below this are DISCARDED before they reach
+  # the router. Any routing threshold on mean similarity must sit strictly above
+  # this value or it can never fire. Asserted at import in affa/agent/routing.py.
+  min_similarity: 0.25
+  mmr_lambda: 0.5
+  filter_by_ticker: true
+
+routing:
+  # t - retry when the mean similarity of KEPT chunks falls below this.
+  # Invariant enforced at import: retry_below_mean_similarity > retrieval.min_similarity
+  retry_below_mean_similarity: 0.45
+  min_chunks_for_sufficiency: 3
+  # The single retry budget in the system (§3: "one retry mechanism, not two").
+  # Nodes may count attempts; only the routing edge may stop the loop.
+  max_retrieval_attempts: 3
+
+verification:
+  # A claim is supported if its numeric values and entities appear in, or are
+  # directly computable from, its cited chunks (§9).
+  numeric_tolerance_pct: 1.0
+  min_entity_overlap: 0.5
+  drop_unsupported_claims: true
+  keep_contradicted_as_flagged: true
+
+kpi:
+  # Percentage convention handling (§6). Never rescale ground truth to make a
+  # metric look better - normalise the prediction and count the conversion.
+  percent_canonical: "points"     # 42.0 means 42%, not 0.42
+  percent_ambiguity_band: [0.0, 1.0]
+  default_scale: "units"          # units | thousands | millions | billions
+  tolerance_pct: 1.0
+  require_provenance: true
+
+recommendation:
+  rubric_file: "configs/rubric_v1.yaml"
+
+report:
+  disclaimer: "Research and educational use only. Not investment advice."
+  include_chain_of_thought: true
