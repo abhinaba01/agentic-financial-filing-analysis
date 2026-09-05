@@ -13,8 +13,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-REPO_URL = "https://github.com/YOUR_USERNAME/agentic-financial-filing-analyst.git"
-REPO_DIR = "agentic-financial-filing-analyst"
+REPO_URL = "https://github.com/abhinaba01/agentic-financial-filing-analysis.git"
+# Derived, not hand-typed: a separate REPO_DIR constant can silently drift from
+# the actual repo name in REPO_URL (it did - "agentic-financial-filing-analyst"
+# vs the real "...-analysis" - and notebooks that were never manually patched
+# after generation would fail their very first cell trying to `cd` into a
+# directory `git clone` never created).
+REPO_DIR = REPO_URL.rsplit("/", 1)[-1].removesuffix(".git")
 NOTEBOOK_DIR = Path(__file__).resolve().parents[1] / "notebooks"
 
 

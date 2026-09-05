@@ -1,0 +1,22 @@
+{
+  "_note": "Copied from a real Colab T4 run (2026-09-05) via training/train_sentiment.py + affa-eval sentiment. Not regenerated locally - this repo has no fine-tuned sentiment checkpoint or GPU.",
+  "component": "sentiment",
+  "dataset": "takala/financial_phrasebank [sentences_allagree]",
+  "split": "held-out 15%",
+  "n_examples": 338,
+  "metrics": {"accuracy": 0.9911, "macro_f1": 0.9829},
+  "baseline_name": "ProsusAI/finbert",
+  "baseline_metrics": {"accuracy": 0.9615, "macro_f1": 0.9514},
+  "model_name": "/content/drive/MyDrive/affa/sentiment/final",
+  "deltas": {"accuracy": 0.0296, "macro_f1": 0.0315},
+  "subset_of": 2264,
+  "seed": 42,
+  "notes": [
+    "BASELINE CAVEAT: ProsusAI/finbert was trained on Financial PhraseBank. Its score on any PhraseBank split - including this held-out one - is partly memorisation. Treat it as an optimistic ceiling, not a neutral reference. Our model has never seen the test split.",
+    "held-out test split: 338 examples, class counts {negative: 45, neutral: 208, positive: 85}",
+    "split is stratified and seeded; the same seed reproduces it exactly",
+    "checkpoint selection used the validation split; this test split was scored once (section 2)",
+    "confusion matrix (rows=true [negative, neutral, positive], cols=pred): [[43, 0, 2], [0, 208, 0], [1, 0, 84]]",
+    "baseline confusion matrix: [[44, 0, 1], [3, 199, 6], [2, 1, 82]]"
+  ]
+}

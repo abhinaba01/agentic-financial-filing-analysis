@@ -14,16 +14,18 @@ passage in the source document.
 
 ## Status, honestly
 
-**No models have been fine-tuned yet.** The pipeline runs end to end today using
-the stock `bge-base-en-v1.5` embedder, a rule-based KPI extractor, and a lexicon
-tone fallback. The four fine-tunes described in
-[Models](#models-to-fine-tune) have training scripts, Colab notebooks and
-evaluation harnesses — but they have not been run, so this README contains **no
-measured model results**, only a table saying so.
+**One of the four models has been fine-tuned so far: sentiment.** The pipeline
+runs end to end today using the stock `bge-base-en-v1.5` embedder, a rule-based
+KPI extractor, and the fine-tuned sentiment classifier below. XBRL tagging and
+numerical reasoning are still on their rule-based / stub fallbacks. The four
+fine-tunes described in [Models](#models-to-fine-tune) have training scripts,
+Colab notebooks and evaluation harnesses; three of the four have not been run
+yet, so most of the results table below still says so rather than showing a
+number.
 
 That is deliberate. This project's whole premise is that a number without a
 measured baseline is not a result, so the alternative — filling the table with
-plausible figures — would defeat the point. See
+plausible figures before a fine-tune actually runs — would defeat the point. See
 [Results](#results) and [What is not done](#what-is-not-done).
 
 ---
@@ -287,13 +289,25 @@ resume logic is usually broken resume logic.
 | XBRL tagger | seqeval micro-F1 | — | — | **not run** — no fine-tune yet |
 | Retrieval (FiQA) | NDCG@10 | — | — | **not run** |
 | Retrieval (FinanceBench) | Hit@1 | — | — | **not run** |
-| Sentiment | macro-F1 | — | — | **not run** |
+| Sentiment | accuracy / macro-F1 | **0.9911 / 0.9829** | 0.9615 / 0.9514 (`ProsusAI/finbert`, same held-out split) | **run** — see caveat and [model card](docs/model_cards/sentiment.md) |
 | KPI extraction | value accuracy | 1.000 (19/19) | 1.000, rule-based | **synthetic filing only** — see caveat |
 | Numerical reasoning | execution accuracy | — | — | **not run** |
 | RAG faithfulness | claim-support precision | — | — | **needs a real labelled set** |
 | Recommendation | rubric agreement | — | — | **needs labelled filings** |
 
-**The one number here is not a result.** The KPI row is measured on
+**The sentiment row is a real result, with a caveat on the baseline.**
+`nlpaueb/sec-bert-base` was fine-tuned from scratch on a stratified 70/15/15
+split of `financial_phrasebank` (`sentences_allagree`, 2,264 sentences, seed 42)
+and scored once on the 338-sentence held-out test split — it never saw that
+split during training. `ProsusAI/finbert` is evaluated on the same 338
+sentences as the baseline, but finbert was *trained* on Financial PhraseBank, so
+its score there is partly memorisation — treat it as an optimistic ceiling, not
+a neutral baseline (`affa-eval sentiment` prints this same caveat every run). Our
+model beating that ceiling (+0.030 accuracy, +0.032 macro-F1) is the notable
+part: it means a from-scratch fine-tune on a disjoint split outperforms a model
+with a memorisation advantage on the exact sentences being scored.
+
+**The KPI number is not a result.** It is measured on
 `data/kpi_gold/demo_10k.gold.json`, a filing this repo wrote itself, with the
 XBRL tagger disabled — so the "model" and the "baseline" are the same rule-based
 extractor, and 19/19 says the harness works, not that the product does. Section 9
@@ -410,9 +424,14 @@ pytest:
 
 Stated plainly, because a roadmap that only lists finished work is not a roadmap.
 
-- **No model has been fine-tuned.** All four training scripts and notebooks
-  exist and the guards are tested, but none has been run on a T4. Every model row
-  in the results table is empty.
+- **Three of four models have not been fine-tuned.** All four training scripts
+  and notebooks exist and the guards are tested; sentiment has been run on a T4
+  and evaluated (see [Results](#results)), XBRL, retrieval and FinQA have not.
+- **The fine-tuned sentiment model is not wired into the default config or
+  pushed to the Hub yet.** The checkpoint exists on Drive and is evaluated, but
+  `configs/default.yaml` still ships `models.sentiment.enabled: false` because
+  no Hub id exists to point it at. Analysis reports still say
+  `lexicon_fallback` until that happens.
 - **No real filings are labelled.** `data/kpi_gold/` contains one synthetic
   document. The hand-labelled set over 10–20 real filings — the most valuable
   dataset in the project, and the only thing that measures the actual product —
@@ -423,9 +442,9 @@ Stated plainly, because a roadmap that only lists finished work is not a roadmap
   implemented and the hand-check sampler exists; nobody has filled in the
   human verdicts, so agreement between the automated metric and a human is
   unknown.
-- **The XBRL tagger and sentiment classifier are disabled by default**
-  (`enabled: false`), so KPI extraction is rule-based and tone comes from a word
-  lexicon. Both are labelled as such in every report they touch.
+- **The XBRL tagger is disabled by default** (`enabled: false`), so KPI
+  extraction is rule-based until it is fine-tuned. Labelled as such in every
+  report it touches.
 - **Concurrency is not measured.** The four branches fan out in the graph, but
   nobody has verified that this is faster than running them sequentially — CPU
   thread oversubscription can make parallel slower, and GPU branches share one

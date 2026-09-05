@@ -124,7 +124,17 @@ def test_readme_states_what_is_not_done() -> None:
     """Section 10 requires a roadmap describing what is not done."""
     text = readme_text()
     assert "## What is not done" in text
-    assert "No model has been fine-tuned" in text
+    assert "have not been fine-tuned" in text
+
+
+def test_readme_does_not_claim_more_finetuning_than_has_happened() -> None:
+    """As models actually get fine-tuned, the roadmap has to keep saying so
+    accurately - this pins the specific claim it should not silently regress
+    back to a blanket "none of them are done" once that stops being true.
+    """
+    text = readme_text()
+    assert "No models have been fine-tuned yet" not in text
+    assert "sentiment" in text.lower()
 
 
 def test_disclaimer_is_present_everywhere_it_must_be() -> None:

@@ -39,6 +39,16 @@ KNOWN_BAD_SNIPPETS: tuple[tuple[str, str], ...] = (
         "'AttributeError: _CudaDeviceProperties object has no attribute "
         "total_mem'. CPU-only CI cannot execute this cell to catch it.",
     ),
+    (
+        "agentic-financial-filing-analyst",
+        "typo repo name - 'analyst' where the real repo is 'analysis'. "
+        "REPO_DIR was a separately hand-typed constant that drifted from "
+        "REPO_URL; the generator now derives REPO_DIR from REPO_URL so they "
+        "cannot diverge again. A notebook with this typo `cd`s into a "
+        "directory `git clone` never created and fails on its very first "
+        "cell - only on a real clone, never under a static check that doesn't "
+        "diff the two constants against each other.",
+    ),
 )
 
 
@@ -131,3 +141,36 @@ def test_gpu_check_cell_uses_the_real_torch_attribute() -> None:
             assert "get_device_properties(0).total_memory" in source, (
                 f"{name} calls get_device_properties but not with .total_memory"
             )
+
+
+def test_repo_dir_cannot_drift_from_repo_url() -> None:
+    """REPO_DIR must be derived from REPO_URL, never a second hand-typed constant.
+
+    Regression: REPO_URL said '...-analyst.git' and REPO_DIR said '-analyst'
+    while the real repo is '...-analysis' - the two constants agreed with each
+    other and disagreed with reality, so nothing that only compares them to
+    each other would have caught it. This checks the generator's *source code*
+    computes REPO_DIR from REPO_URL rather than assigning it a literal, which
+    is what makes the two impossible to desynchronize again.
+    """
+    from scripts import make_notebooks
+
+    generator_source = (repo_root() / "scripts" / "make_notebooks.py").read_text(encoding="utf-8")
+    assert 'REPO_DIR = REPO_URL.rsplit("/", 1)[-1].removesuffix(".git")' in generator_source, (
+        "REPO_DIR is no longer derived from REPO_URL in scripts/make_notebooks.py - "
+        "a hand-typed REPO_DIR constant is exactly what drifted into a typo before"
+    )
+    assert make_notebooks.REPO_URL.rsplit("/", 1)[-1].removesuffix(".git") == (
+        make_notebooks.REPO_DIR
+    )
+
+
+def test_notebooks_clone_the_actual_project_repo() -> None:
+    """The clone target must be a real, reachable repo - not a template
+    placeholder left over from generation.
+    """
+    for name in NOTEBOOKS:
+        source = "".join(cell_sources(load_notebook(name)))
+        assert "YOUR_USERNAME" not in source.split("HUB_ID")[0], (
+            f"{name}: the repo-clone cell still has a placeholder URL"
+        )
